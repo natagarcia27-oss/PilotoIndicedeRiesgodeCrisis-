@@ -368,63 +368,42 @@ if archivo and procesar:
                     indicadores_criticos += 1
 
         # ==========================================
-        # CATEGORÍAS
+        # CATEGORÍAS AFECTADAS
         # ==========================================
-
-        categorias = {
-            "Legitimidad electoral": range(0, 8),
-            "Movilización social": range(8, 16),
-            "Dinámica digital y mediática": range(16, 24),
-            "Disrupción logística": range(24, 28),
-            "Violencia y orden público": range(28, 34),
-            "Relación civil-militar": range(34, 39),
-            "Actores armados ilegales": range(39, 44),
-            "Violencia organizada": range(44, 50),
-            "Estabilidad institucional": range(50, 56),
-            "Variables económicas": range(56, 64)
-        }
-
-        categorias_afectadas = 0
-
-        for categoria, filas in categorias.items():
         
-            categoria_activa = False
+        categorias_afectadas_set = set()
         
-            for fila_cat in filas:
+        categoria_actual = None
         
-                fila_excel = fila_cat + 1
+        for i in range(2, 66):
         
-                valor_estable = str(
-                    hoja.iloc[fila_excel, 4]
-                ).strip().upper()
+            categoria = hoja.iloc[i, 0]
         
-                valor_creciente = str(
-                    hoja.iloc[fila_excel, 6]
-                ).strip().upper()
+            if pd.notna(categoria):
+                categoria_actual = str(categoria).strip()
         
-                valor_critico = str(
-                    hoja.iloc[fila_excel, 8]
-                ).strip().upper()
+            valor_estable = str(
+                hoja.iloc[i, 4]
+            ).strip().upper()
         
-                if (
-                    valor_estable in ["SI", "SÍ", "X", "1", "✓"]
-                    or valor_creciente in ["SI", "SÍ", "X", "1", "✓"]
-                    or valor_critico in ["SI", "SÍ", "X", "1", "✓"]
-                ):
-                    categoria_activa = True
-                    break
+            valor_creciente = str(
+                hoja.iloc[i, 6]
+            ).strip().upper()
         
-            if categoria_activa:
-                categorias_afectadas += 1            
-            # FIN DEL FOR DE CATEGORÍAS
-            
-        escenario = obtener_escenario_dominante(
-            escenario_estable * 100,
-            escenario_creciente * 100,
-            escenario_critico * 100
-        )
-
-        criticidad = determinar_criticidad(irc)
+            valor_critico = str(
+                hoja.iloc[i, 8]
+            ).strip().upper()
+        
+            indicador_marcado = (
+                valor_estable in ["SI", "SÍ", "X", "1", "✓"]
+                or valor_creciente in ["SI", "SÍ", "X", "1", "✓"]
+                or valor_critico in ["SI", "SÍ", "X", "1", "✓"]
+            )
+        
+            if indicador_marcado and categoria_actual:
+                categorias_afectadas_set.add(categoria_actual)
+        
+        categorias_afectadas = len(categorias_afectadas_set)
 
         # =====================================
         # MÉTRICAS PRINCIPALES
