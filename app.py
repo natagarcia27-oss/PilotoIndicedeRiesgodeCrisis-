@@ -357,13 +357,15 @@ if archivo and procesar:
         indicadores_criticos = 0
 
         for i in range(2, 66):
-
-            valor = str(
-                hoja.iloc[i, 8]
-            ).strip().upper()
-
-            if valor in ["X", "1", "CRITICO", "CRÍTICO"]:
-                indicadores_criticos += 1
+        
+            valor = hoja.iloc[i, 8]
+        
+            if pd.notna(valor):
+        
+                valor = str(valor).strip()
+        
+                if valor != "":
+                    indicadores_criticos += 1
 
         # ==========================================
         # CATEGORÍAS
