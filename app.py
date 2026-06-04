@@ -405,6 +405,23 @@ if archivo and procesar:
         
         categorias_afectadas = len(categorias_afectadas_set)
 
+        # ==========================================
+        # CATEGORÍAS PARA RADAR
+        # ==========================================
+        
+        categorias = {
+            "Legitimidad electoral": range(0, 8),
+            "Movilización social": range(8, 16),
+            "Dinámica digital y mediática": range(16, 24),
+            "Disrupción logística": range(24, 28),
+            "Violencia y orden público": range(28, 34),
+            "Relación civil-militar": range(34, 39),
+            "Actores armados ilegales": range(39, 44),
+            "Violencia organizada": range(44, 50),
+            "Estabilidad institucional": range(50, 56),
+            "Variables económicas": range(56, 64)
+        }
+        
         # =====================================
         # VARIABLES ESTRATÉGICAS
         # =====================================
@@ -418,7 +435,7 @@ if archivo and procesar:
         criticidad = determinar_criticidad(
             irc
         )
-
+        
         # =====================================
         # MÉTRICAS PRINCIPALES
         # =====================================
