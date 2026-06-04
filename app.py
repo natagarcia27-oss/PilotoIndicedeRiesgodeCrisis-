@@ -648,23 +648,12 @@ if archivo and procesar:
                         y=0.50,
                         showarrow=False,
                         font=dict(
-                            size=30,
+                            size=34,
                             color="#0f172a"
                         )
                     )
                 ],
-                    dict(
-                        text=escenario,
-                        x=0.5,
-                        y=0.42,
-                        showarrow=False,
-                        font=dict(
-                            size=20,
-                            color="#64748b"
-                        )
-                    )
-                ],
-        
+       
                 legend=dict(
                     orientation="h",
                     y=-0.05,
