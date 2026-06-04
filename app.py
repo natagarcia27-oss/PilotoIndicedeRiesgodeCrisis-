@@ -96,7 +96,7 @@ La convergencia de factores asociados a movilización social y amplificación na
         return f"""
 El sistema evidencia convergencia de factores críticos.
 
-El IRC alcanza {irc*100:.0f}% y el IAAM {iaam*100:.0f}%
+El IRC alcanza {irc:.0f}% y el IAAM {iaam:.0f}%
 
 La simultaneidad de múltiples factores de riesgo incrementa significativamente la probabilidad de evolución hacia escenarios de crisis y exige fortalecimiento de capacidades institucionales y mecanismos de coordinación.
 """
