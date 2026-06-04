@@ -643,7 +643,7 @@ if archivo and procesar:
         
                 annotations=[
                     dict(
-                        text=f"<b>{dominante_valor:.1f}%</b>",
+                        text=f"<b>{dominante_valor:.1f}%</b><br><span style='font-size:14px'>Probabilidad</span>"
                         x=0.5,
                         y=0.55,
                         showarrow=False,
@@ -852,7 +852,11 @@ if archivo and procesar:
 
                 promedio = puntaje / total
 
-                riesgo = (promedio / 3) * 100
+                riesgo = (
+                    (critico * 3) +
+                    (creciente * 2) +
+                    (estable * 1)
+                ) / (len(filas) * 3) * 100
 
             riesgo_categorias.append(riesgo)
 
