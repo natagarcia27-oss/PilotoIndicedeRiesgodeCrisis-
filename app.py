@@ -406,6 +406,20 @@ if archivo and procesar:
         categorias_afectadas = len(categorias_afectadas_set)
 
         # =====================================
+        # VARIABLES ESTRATÉGICAS
+        # =====================================
+        
+        escenario = obtener_escenario_dominante(
+            escenario_estable * 100,
+            escenario_creciente * 100,
+            escenario_critico * 100
+        )
+        
+        criticidad = determinar_criticidad(
+            irc
+        )
+
+        # =====================================
         # MÉTRICAS PRINCIPALES
         # =====================================
 
