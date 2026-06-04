@@ -387,23 +387,35 @@ if archivo and procesar:
         categorias_afectadas = 0
 
         for categoria, filas in categorias.items():
-
-            tiene_critico = False
-
+        
+            categoria_activa = False
+        
             for fila_cat in filas:
-
+        
                 fila_excel = fila_cat + 1
-
-                valor = str(
+        
+                valor_estable = str(
+                    hoja.iloc[fila_excel, 4]
+                ).strip().upper()
+        
+                valor_creciente = str(
+                    hoja.iloc[fila_excel, 6]
+                ).strip().upper()
+        
+                valor_critico = str(
                     hoja.iloc[fila_excel, 8]
                 ).strip().upper()
-
-                if valor in ["SI", "SÍ", "X", "1"]:
-                    tiene_critico = True
-
-            if tiene_critico:
-                categorias_afectadas += 1
-            
+        
+                if (
+                    valor_estable in ["SI", "SÍ", "X", "1", "✓"]
+                    or valor_creciente in ["SI", "SÍ", "X", "1", "✓"]
+                    or valor_critico in ["SI", "SÍ", "X", "1", "✓"]
+                ):
+                    categoria_activa = True
+                    break
+        
+            if categoria_activa:
+                categorias_afectadas += 1            
             # FIN DEL FOR DE CATEGORÍAS
             
         escenario = obtener_escenario_dominante(
