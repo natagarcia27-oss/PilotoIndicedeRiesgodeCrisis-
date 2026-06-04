@@ -652,7 +652,7 @@ if archivo and procesar:
                             color="#0f172a"
                         )
                     )
-                ]
+                ],
                     dict(
                         text=escenario,
                         x=0.5,
