@@ -643,15 +643,16 @@ if archivo and procesar:
         
                 annotations=[
                     dict(
-                        text=f"<b>{dominante_valor:.1f}%</b><br><span style='font-size:14px'>Probabilidad</span>",
+                        text=escenario,
                         x=0.5,
-                        y=0.55,
+                        y=0.50,
                         showarrow=False,
                         font=dict(
-                            size=40,
+                            size=30,
                             color="#0f172a"
                         )
-                    ),
+                    )
+                ]
                     dict(
                         text=escenario,
                         x=0.5,
