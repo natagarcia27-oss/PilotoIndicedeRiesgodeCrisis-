@@ -421,27 +421,27 @@ if archivo and procesar:
        descripcion_escenario = (
            "Descripción estratégica no disponible en la hoja Escenarios."
        )
-        try:
+       try:
         
-            hoja_escenarios = pd.read_excel(
-                archivo,
-                sheet_name="Escenarios",
-                header=None
-            )
+           hoja_escenarios = pd.read_excel(
+               archivo,
+               sheet_name="Escenarios",
+               header=None
+           )
         
-            for i in range(len(hoja_escenarios)):
+           for i in range(len(hoja_escenarios)):
         
-                texto = str(
-                    hoja_escenarios.iloc[i,0]
-                ).strip()
+               texto = str(
+                   hoja_escenarios.iloc[i,0]
+               ).strip()
         
-                if escenario.upper() in texto.upper():
+               if escenario.upper() in texto.upper():
         
-                    descripcion_escenario = str(
-                        hoja_escenarios.iloc[i+1,0]
-                    )
+                   descripcion_escenario = str(
+                       hoja_escenarios.iloc[i+1,0]
+                   )
         
-                    break
+                   break
         
         except:
             
@@ -668,30 +668,7 @@ if archivo and procesar:
         """
         
             return color, narrativa
-
-        # ==========================================
-        # ALERTA ESTRATÉGICA
-        # ==========================================
-        
-        color_alerta, texto_alerta = generar_alerta_estrategica(
-            escenario,
-            categoria_dominante,
-            riesgo_dominante,
-            descripcion_escenario
-        )
-        
-        if color_alerta == "green":
-        
-            st.success(texto_alerta)
-        
-        elif color_alerta == "orange":
-        
-            st.warning(texto_alerta)
-        
-        else:
-        
-            st.error(texto_alerta)
-        
+       
         # =====================================================
         # VISUALIZACIÓN ESTRATÉGICA
         # =====================================================
@@ -1024,7 +1001,30 @@ if archivo and procesar:
             ]
             
             riesgo_dominante = max(riesgo_categorias)
-                
+
+        # ==========================================
+        # ALERTA ESTRATÉGICA
+        # ==========================================
+        
+        color_alerta, texto_alerta = generar_alerta_estrategica(
+            escenario,
+            categoria_dominante,
+            riesgo_dominante,
+            descripcion_escenario
+        )
+        
+        if color_alerta == "green":
+        
+            st.success(texto_alerta)
+        
+        elif color_alerta == "orange":
+        
+            st.warning(texto_alerta)
+        
+        else:
+        
+            st.error(texto_alerta)
+          
             etiquetas_radar = []
     
             for nombre, valor in zip(
