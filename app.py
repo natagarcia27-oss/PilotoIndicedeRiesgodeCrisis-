@@ -865,21 +865,21 @@ if archivo and procesar:
         
             riesgo_categorias.append(round(riesgo,1))
                 
-                if riesgo <= 30:
+            if riesgo <= 30:
                     colores_riesgo.append("#22c55e")
                 
-                elif riesgo <= 60:
+            elif riesgo <= 60:
                     colores_riesgo.append("#eab308")
                 
-                elif riesgo <= 80:
+            elif riesgo <= 80:
                     colores_riesgo.append("#f97316")
                 
-                else:
-                    colores_riesgo.append("#dc2626")
+            else:
+                    colores_riesgo.append("#dc2626")                
     
         radar = go.Figure()
         
-         radar.add_trace(
+        radar.add_trace(
             go.Scatterpolar(
         
                 r=riesgo_categorias,
@@ -911,7 +911,7 @@ if archivo and procesar:
                     for v in riesgo_categorias
                 ],
         
-                textposition="top center",
+                textposition="middle center",
         
                 textfont=dict(
                     size=16,
@@ -948,7 +948,7 @@ if archivo and procesar:
                     gridwidth=1,
                 
                     linecolor="#94a3b8"
-                )
+                ),
         
                 angularaxis=dict(
                     gridcolor="#e2e8f0",
