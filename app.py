@@ -96,21 +96,21 @@ def generar_alerta(irc):
 
         return (
             "ALERTA CRÍTICA",
-            "Convergencia de factores críticos con capacidad de escalamiento."
+            "La crisis presenta afectación simultánea sobre legitimidad institucional, orden público, movilidad, economía y control territorial. Los indicadores muestran coordinación, persistencia y expansión nacional, superando parcial o totalmente la capacidad ordinaria de respuesta estatal."
         )
 
     elif irc >= 40:
 
         return (
-            "ALERTA PREVENTIVA",
-            "Incremento de indicadores de conflictividad y movilización."
+            "ALERTA CRECIENTE",
+            "Los indicadores reflejan expansión territorial, aumento de coordinación y persistencia de la crisis, iste riesgo de escalamiento rápido si no se contiene oportunamente."
         )
 
     else:
 
         return (
-            "ALERTA INFORMATIVA",
-            "Condiciones compatibles con estabilidad funcional."
+            "ALERTA ESTABLE",
+            "El sistema institucional, social y económico mantiene capacidad de funcionamiento normal."
         )
 
 
