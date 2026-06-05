@@ -820,6 +820,8 @@ if archivo and procesar:
         
         riesgo_categorias = []
         
+        colores_riesgo = []
+        
         for categoria, filas in categorias.items():
         
             estable = 0
@@ -862,24 +864,61 @@ if archivo and procesar:
             ) * 100
         
             riesgo_categorias.append(round(riesgo,1))
-        
+                
+                if riesgo <= 30:
+                    colores_riesgo.append("#22c55e")
+                
+                elif riesgo <= 60:
+                    colores_riesgo.append("#eab308")
+                
+                elif riesgo <= 80:
+                    colores_riesgo.append("#f97316")
+                
+                else:
+                    colores_riesgo.append("#dc2626")
+    
         radar = go.Figure()
         
-        radar.add_trace(
+         radar.add_trace(
             go.Scatterpolar(
+        
                 r=riesgo_categorias,
+        
                 theta=list(categorias.keys()),
+        
                 fill="toself",
-                fillcolor="rgba(59,130,246,0.35)",
+        
+                fillcolor="rgba(37,99,235,0.25)",
+        
                 line=dict(
                     color="#2563eb",
-                    width=3
+                    width=4
                 ),
+        
                 marker=dict(
-                    size=8,
-                    color="#2563eb"
+                    size=12,
+                    color="#2563eb",
+                    line=dict(
+                        color="white",
+                        width=2
+                    )
                 ),
-                name="Nivel de riesgo"
+        
+                mode="lines+markers+text",
+        
+                text=[
+                    f"{v:.0f}%"
+                    for v in riesgo_categorias
+                ],
+        
+                textposition="top center",
+        
+                textfont=dict(
+                    size=16,
+                    color="#0f172a"
+                ),
+        
+                name="Riesgo"
             )
         )
         
@@ -893,11 +932,23 @@ if archivo and procesar:
         
                 radialaxis=dict(
                     visible=True,
+                
                     range=[0,100],
-                    tickvals=[0,20,40,60,80,100],
-                    gridcolor="#dbeafe",
-                    linecolor="#cbd5e1"
-                ),
+                
+                    tickvals=[
+                        0,20,40,60,80,100
+                    ],
+                
+                    tickfont=dict(
+                        size=14
+                    ),
+                
+                    gridcolor="#cbd5e1",
+                
+                    gridwidth=1,
+                
+                    linecolor="#94a3b8"
+                )
         
                 angularaxis=dict(
                     gridcolor="#e2e8f0",
@@ -925,6 +976,45 @@ if archivo and procesar:
             radar,
             use_container_width=True
         )
+            
+        st.info(
+            "ℹ️ El área azul representa el nivel de riesgo agregado por categoría."
+        )
+            
+        st.markdown("""
+        <div style="
+        display:flex;
+        justify-content:center;
+        gap:60px;
+        margin-top:15px;
+        margin-bottom:25px;
+        font-size:16px;
+        font-weight:600;
+        ">
+        
+        <div style="color:#22c55e;">
+        🟢 0% - 30%<br>
+        Bajo
+        </div>
+        
+        <div style="color:#eab308;">
+        🟡 31% - 60%<br>
+        Moderado
+        </div>
+        
+        <div style="color:#f97316;">
+        🟠 61% - 80%<br>
+        Alto
+        </div>
+        
+        <div style="color:#dc2626;">
+        🔴 81% - 100%<br>
+        Crítico
+        </div>
+        
+        </div>
+        """, unsafe_allow_html=True)
+            
         # =====================================================
         # ALISTAMIENTO ESTRATÉGICO
         # =====================================================
