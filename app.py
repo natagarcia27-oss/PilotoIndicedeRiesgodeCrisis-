@@ -92,26 +92,24 @@ La simultaneidad de múltiples factores de riesgo incrementa significativamente 
 
 def generar_alerta(irc):
 
-    if irc >= 70:
-
-        return (
-            "ALERTA CRÍTICA",
-            "Convergencia de factores críticos con capacidad de escalamiento."
-        )
-
-    elif irc >= 40:
-
-        return (
-            "ALERTA PREVENTIVA",
-            "Incremento de indicadores de conflictividad y movilización."
-        )
-
+    color_alerta, texto_alerta = generar_alerta_estrategica(
+        escenario,
+        categoria_dominante,
+        riesgo_dominante,
+        descripcion_escenario
+    )
+    
+    if color_alerta == "green":
+    
+        st.success(texto_alerta)
+    
+    elif color_alerta == "orange":
+    
+        st.warning(texto_alerta)
+    
     else:
-
-        return (
-            "ALERTA INFORMATIVA",
-            "Condiciones compatibles con estabilidad funcional."
-        )
+    
+        st.error(texto_alerta)
 
 
 def generar_alistamiento(iaam):
@@ -419,7 +417,38 @@ if archivo and procesar:
             escenario_creciente * 100,
             escenario_critico * 100
         )
-               
+
+        descripcion_escenario = ""
+
+        try:
+        
+            hoja_escenarios = pd.read_excel(
+                archivo,
+                sheet_name="Escenarios",
+                header=None
+            )
+        
+            for i in range(len(hoja_escenarios)):
+        
+                texto = str(
+                    hoja_escenarios.iloc[i,0]
+                ).strip()
+        
+                if escenario.upper() in texto.upper():
+        
+                    descripcion_escenario = str(
+                        hoja_escenarios.iloc[i+1,0]
+                    )
+        
+                    break
+        
+        except:
+            
+            descripcion_escenario = (
+                "No fue posible recuperar la descripción "
+                "estratégica del escenario."
+            )
+        
         # =====================================
         # MÉTRICAS PRINCIPALES
         # =====================================
@@ -534,23 +563,110 @@ if archivo and procesar:
             unsafe_allow_html=True
         )
 
-        if irc >= 70:
-
-            st.error(
-                "🔴 ALERTA CRÍTICA\n\nConvergencia de factores críticos con capacidad de escalamiento."
-            )
-
-        elif irc >= 40:
-
-            st.warning(
-                "🟡 ALERTA PREVENTIVA\n\nIncremento sostenido de indicadores de riesgo."
-            )
-
-        else:
-
-            st.success(
-                "🟢 ALERTA INFORMATIVA\n\nCondiciones compatibles con estabilidad funcional."
-            )
+        def generar_alerta_estrategica(
+                escenario,
+                categoria_dominante,
+                riesgo_dominante,
+                descripcion_escenario
+        ):
+        
+            if escenario == "Estable":
+        
+                color = "green"
+                icono = "🟢"
+        
+                narrativa = f"""
+        {icono} ALERTA ESTRATÉGICA
+        
+        Categoría con mayor dinámica:
+        {categoria_dominante} ({riesgo_dominante:.0f}%)
+        
+        Escenario predominante:
+        {escenario}
+        
+        {descripcion_escenario}
+        
+        Evaluación:
+        
+        Los indicadores asociados a {categoria_dominante.lower()}
+        constituyen actualmente la principal fuente de variación
+        dentro del sistema.
+        
+        Sin embargo, el comportamiento agregado permanece dentro
+        de parámetros compatibles con estabilidad funcional y no
+        se evidencian señales suficientes para anticipar una
+        alteración significativa del orden público en el corto plazo.
+        
+        Recomendación:
+        
+        Mantener monitoreo reforzado sobre esta categoría y realizar
+        seguimiento continuo a la evolución de sus indicadores.
+        """
+        
+            elif escenario == "Riesgo creciente":
+        
+                color = "orange"
+                icono = "🟡"
+        
+                narrativa = f"""
+        {icono} ALERTA ESTRATÉGICA
+        
+        Categoría con mayor dinámica:
+        {categoria_dominante} ({riesgo_dominante:.0f}%)
+        
+        Escenario predominante:
+        {escenario}
+        
+        {descripcion_escenario}
+        
+        Evaluación:
+        
+        La dinámica observada en {categoria_dominante.lower()}
+        evidencia un incremento sostenido de factores de riesgo.
+        
+        Se identifican condiciones favorables para la expansión
+        de la conflictividad social y el fortalecimiento de
+        procesos de movilización.
+        
+        Recomendación:
+        
+        Incrementar las capacidades de seguimiento, monitoreo
+        territorial y análisis prospectivo.
+        """
+        
+            else:
+        
+                color = "red"
+                icono = "🔴"
+        
+                narrativa = f"""
+        {icono} ALERTA ESTRATÉGICA
+        
+        Categoría con mayor dinámica:
+        {categoria_dominante} ({riesgo_dominante:.0f}%)
+        
+        Escenario predominante:
+        {escenario}
+        
+        {descripcion_escenario}
+        
+        Evaluación:
+        
+        La convergencia de factores asociados a
+        {categoria_dominante.lower()}
+        refleja una situación de riesgo elevado.
+        
+        Se observa potencial de escalamiento hacia escenarios
+        de crisis con afectación simultánea sobre múltiples
+        dimensiones del sistema.
+        
+        Recomendación:
+        
+        Fortalecer mecanismos de coordinación interinstitucional,
+        seguimiento permanente y preparación de capacidades de respuesta.
+        """
+        
+            return color, narrativa
 
         # =====================================================
         # VISUALIZACIÓN ESTRATÉGICA
@@ -875,7 +991,15 @@ if archivo and procesar:
                     colores_riesgo.append("#f97316")
                 
             else:
-                    colores_riesgo.append("#dc2626")     
+                    colores_riesgo.append("#dc2626") 
+            
+            categoria_dominante = list(categorias.keys())[
+                riesgo_categorias.index(
+                    max(riesgo_categorias)
+                )
+            ]
+            
+            riesgo_dominante = max(riesgo_categorias)
                 
             etiquetas_radar = []
     
