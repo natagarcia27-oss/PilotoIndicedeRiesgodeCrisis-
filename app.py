@@ -537,19 +537,19 @@ if archivo and procesar:
         if irc >= 70:
 
             st.error(
-                "🔴 ALERTA CRÍTICA\n\nConvergencia de factores críticos con capacidad de escalamiento."
+                "🔴 ALERTA CRÍTICA\n\nLa crisis presenta afectación simultánea sobre legitimidad institucional, orden público, movilidad, economía y control territorial. Los indicadores muestran coordinación, persistencia y expansión nacional, superando parcial o totalmente la capacidad ordinaria de respuesta estatal."
             )
 
         elif irc >= 40:
 
             st.warning(
-                "🟡 ALERTA PREVENTIVA\n\nIncremento sostenido de indicadores de riesgo."
+                "🟡 ALERTA CRECIENTE\n\nLos indicadores reflejan expansión territorial, aumento de coordinación y persistencia de la crisis, iste riesgo de escalamiento rápido si no se contiene oportunamente."
             )
 
         else:
 
             st.success(
-                "🟢 ALERTA INFORMATIVA\n\nCondiciones compatibles con estabilidad funcional."
+                "🟢 ALERTA ESTABLE\n\nEl sistema institucional, social y económico mantiene capacidad de funcionamiento normal."
             )
 
         # =====================================================
