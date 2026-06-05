@@ -418,8 +418,9 @@ if archivo and procesar:
             escenario_critico * 100
         )
 
-        descripcion_escenario = ""
-
+       descripcion_escenario = (
+           "Descripción estratégica no disponible en la hoja Escenarios."
+       )
         try:
         
             hoja_escenarios = pd.read_excel(
@@ -668,6 +669,29 @@ if archivo and procesar:
         
             return color, narrativa
 
+        # ==========================================
+        # ALERTA ESTRATÉGICA
+        # ==========================================
+        
+        color_alerta, texto_alerta = generar_alerta_estrategica(
+            escenario,
+            categoria_dominante,
+            riesgo_dominante,
+            descripcion_escenario
+        )
+        
+        if color_alerta == "green":
+        
+            st.success(texto_alerta)
+        
+        elif color_alerta == "orange":
+        
+            st.warning(texto_alerta)
+        
+        else:
+        
+            st.error(texto_alerta)
+        
         # =====================================================
         # VISUALIZACIÓN ESTRATÉGICA
         # =====================================================
