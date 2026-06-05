@@ -417,37 +417,37 @@ if archivo and procesar:
             escenario_creciente * 100,
             escenario_critico * 100
         )
-
-       descripcion_escenario = (
-           "Descripción estratégica no disponible en la hoja Escenarios."
-       )
-       try:
         
-           hoja_escenarios = pd.read_excel(
-               archivo,
-               sheet_name="Escenarios",
-               header=None
-           )
+        descripcion_escenario = (
+            "Descripción estratégica no disponible en la hoja Escenarios."
+        )
         
-           for i in range(len(hoja_escenarios)):
+        try:
         
-               texto = str(
-                   hoja_escenarios.iloc[i,0]
-               ).strip()
+            hoja_escenarios = pd.read_excel(
+                archivo,
+                sheet_name="Escenarios",
+                header=None
+            )
         
-               if escenario.upper() in texto.upper():
+            for i in range(len(hoja_escenarios)):
         
-                   descripcion_escenario = str(
-                       hoja_escenarios.iloc[i+1,0]
-                   )
+                texto = str(
+                    hoja_escenarios.iloc[i, 0]
+                ).strip()
         
-                   break
+                if escenario.upper() in texto.upper():
         
-        except:
-            
+                    descripcion_escenario = str(
+                        hoja_escenarios.iloc[i + 1, 0]
+                    )
+        
+                    break
+        
+        except Exception:
+        
             descripcion_escenario = (
-                "No fue posible recuperar la descripción "
-                "estratégica del escenario."
+                "No fue posible recuperar la descripción estratégica del escenario."
             )
         
         # =====================================
@@ -1024,13 +1024,14 @@ if archivo and procesar:
         else:
         
             st.error(texto_alerta)
-          
-            etiquetas_radar = []
+
+            
+        etiquetas_radar = []
     
-            for nombre, valor in zip(
-                categorias.keys(),
-                riesgo_categorias
-            ):
+        for nombre, valor in zip(
+            categorias.keys(),
+            riesgo_categorias
+        ):
             
                 etiquetas_radar.append(
             f"{nombre}<br><b>{valor:.0f}%</b>"
