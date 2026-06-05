@@ -875,8 +875,19 @@ if archivo and procesar:
                     colores_riesgo.append("#f97316")
                 
             else:
-                    colores_riesgo.append("#dc2626")                
+                    colores_riesgo.append("#dc2626")     
+                
+            etiquetas_radar = []
     
+            for nombre, valor in zip(
+                categorias.keys(),
+                riesgo_categorias
+            ):
+            
+                etiquetas_radar.append(
+            f"{nombre}<br><b>{valor:.0f}%</b>"
+        )
+                
         radar = go.Figure()
         
         radar.add_trace(
@@ -884,7 +895,7 @@ if archivo and procesar:
         
                 r=riesgo_categorias,
         
-                theta=list(categorias.keys()),
+                theta=etiquetas_radar,
         
                 fill="toself",
         
@@ -904,20 +915,8 @@ if archivo and procesar:
                     )
                 ),
         
-                mode="lines+markers+text",
-        
-                text=[
-                    f"{v:.0f}%"
-                    for v in riesgo_categorias
-                ],
-        
-                textposition="middle center",
-        
-                textfont=dict(
-                    size=16,
-                    color="#0f172a"
-                ),
-        
+                mode="lines+markers",
+                
                 name="Riesgo"
             )
         )
@@ -954,7 +953,7 @@ if archivo and procesar:
                     gridcolor="#e2e8f0",
                     linecolor="#cbd5e1",
                     tickfont=dict(
-                        size=13,
+                        size=15,
                         color="#0f172a"
                     )
                 )
@@ -969,7 +968,7 @@ if archivo and procesar:
                 r=40
             ),
         
-            height=700
+            height=850
         )
         
         st.plotly_chart(
