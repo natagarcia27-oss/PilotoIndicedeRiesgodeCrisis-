@@ -786,94 +786,145 @@ if archivo and procesar:
                 unsafe_allow_html=True
             )        
         # =====================================================
-        # RIESGO POR CATEGORÍA
+        # RIESGO POR CATEGORÍA - VERSIÓN EJECUTIVA
         # =====================================================
-
-        st.subheader("Riesgo por Categoría")
-
-        radar = go.Figure()
-
+        
+        st.markdown("""
+        <div style="
+        background:white;
+        border:1px solid #e5e7eb;
+        border-radius:20px;
+        padding:20px;
+        box-shadow:0 6px 18px rgba(0,0,0,0.08);
+        margin-top:20px;
+        ">
+        <h3 style="
+        margin:0;
+        color:#0f172a;
+        font-size:24px;
+        font-weight:800;
+        ">
+        Riesgo por Categoría
+        </h3>
+        
+        <p style="
+        margin-top:5px;
+        color:#64748b;
+        font-size:14px;
+        ">
+        Vista polar de la intensidad por categoría de amenaza
+        </p>
+        
+        </div>
+        """, unsafe_allow_html=True)
+        
         riesgo_categorias = []
-
+        
         for categoria, filas in categorias.items():
-
+        
             estable = 0
             creciente = 0
             critico = 0
-
+        
             for fila_cat in filas:
-
+        
                 fila_excel = fila_cat + 1
-
+        
                 valor_estable = str(
                     hoja.iloc[fila_excel, 4]
                 ).strip().upper()
-
+        
                 valor_creciente = str(
                     hoja.iloc[fila_excel, 6]
                 ).strip().upper()
-
+        
                 valor_critico = str(
                     hoja.iloc[fila_excel, 8]
                 ).strip().upper()
-
-                if "✓" in valor_estable or valor_estable in ["SI", "SÍ", "X", "1"]:
+        
+                if valor_estable in ["SI","SÍ","X","1","✓"]:
                     estable += 1
-
-                if "✓" in valor_creciente or valor_creciente in ["SI", "SÍ", "X", "1"]:
+        
+                if valor_creciente in ["SI","SÍ","X","1","✓"]:
                     creciente += 1
-
-                if "✓" in valor_critico or valor_critico in ["SI", "SÍ", "X", "1"]:
+        
+                if valor_critico in ["SI","SÍ","X","1","✓"]:
                     critico += 1
-
-            total = estable + creciente + critico
-
-            if total == 0:
-
-                riesgo = 0
-
-            else:
-
-                puntaje = (
+        
+            riesgo = (
+                (
+                    critico * 3 +
+                    creciente * 2 +
                     estable * 1
-                    + creciente * 2
-                    + critico * 3
                 )
-
-                promedio = puntaje / total
-
-                riesgo = (
-                    (critico * 3) +
-                    (creciente * 2) +
-                    (estable * 1)
-                ) / (len(filas) * 3) * 100
-
-            riesgo_categorias.append(riesgo)
-
+                /
+                (len(filas) * 3)
+            ) * 100
+        
+            riesgo_categorias.append(round(riesgo,1))
+        
+        radar = go.Figure()
+        
         radar.add_trace(
             go.Scatterpolar(
                 r=riesgo_categorias,
                 theta=list(categorias.keys()),
                 fill="toself",
+                fillcolor="rgba(59,130,246,0.35)",
+                line=dict(
+                    color="#2563eb",
+                    width=3
+                ),
+                marker=dict(
+                    size=8,
+                    color="#2563eb"
+                ),
                 name="Nivel de riesgo"
             )
         )
-
+        
         radar.update_layout(
+        
+            paper_bgcolor="white",
+        
             polar=dict(
+        
+                bgcolor="white",
+        
                 radialaxis=dict(
                     visible=True,
-                    range=[0, 100]
+                    range=[0,100],
+                    tickvals=[0,20,40,60,80,100],
+                    gridcolor="#dbeafe",
+                    linecolor="#cbd5e1"
+                ),
+        
+                angularaxis=dict(
+                    gridcolor="#e2e8f0",
+                    linecolor="#cbd5e1",
+                    tickfont=dict(
+                        size=13,
+                        color="#0f172a"
+                    )
                 )
             ),
-            height=650
+        
+            showlegend=False,
+        
+            margin=dict(
+                t=40,
+                b=40,
+                l=40,
+                r=40
+            ),
+        
+            height=700
         )
-
+        
         st.plotly_chart(
             radar,
             use_container_width=True
         )
-
         # =====================================================
         # ALISTAMIENTO ESTRATÉGICO
         # =====================================================
